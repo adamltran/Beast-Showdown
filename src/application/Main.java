@@ -66,10 +66,19 @@ public class Main extends Application {
 		Beast b2 = new Beast(BeastList.BEAR);
 		DamageSystem ds = new DamageSystem(b1, b2);
 		TurnSystem ts = new TurnSystem();
-		ts.turn(b1, b2, ds);
-		ts.turn(b1, b2, ds);
-		ts.turn(b1, b2, ds);
-		ts.turn(b1, b2, ds);
+		
+		/*
+		 * Flag that keeps giving turns until either beast dies
+		 */
+		boolean gameOver = false;
+		while(!gameOver) {
+			ts.turn(b1, b2, ds);
+			if(b1.getHp() == 0 || b2.getHp() == 0) {
+				gameOver = true;
+			}
+		}
+		System.out.println("gameOver status: " + gameOver);
+		
 
 
 	}

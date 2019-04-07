@@ -20,7 +20,7 @@ public class DamageSystem {
 	public DamageSystem(Beast b1, Beast b2) {
 		this.beastPrintOrder[0] = b1;
 		this.beastPrintOrder[1] = b2;
-		
+
 	}
 
 	public void attack(Beast b1, Beast b2, Moves m) {
@@ -67,7 +67,7 @@ public class DamageSystem {
 		}
 		case FEAST: {
 			damage = 0;
-			heal = b1.getmaxHp();
+			heal = b1.getmaxHp() - b1.getHp();
 			accuracy = 1;
 			depleted = true;
 			description = "Devours secret sauce. Recovers hp back to max. Usable only once.";
@@ -167,9 +167,14 @@ public class DamageSystem {
 			if(m == Moves.BLIND) {
 				blindStack++;
 			}
-			
-//			System.out.println("b2 HP: " + b2.getHp() + ", Damage inflicted: " + damage);
-			b2.setHp(b2.getHp() - damage);
+
+			//Inflict damage
+			if(b2.getHp() - damage < 0) {
+				b2.setHp(0);
+			}
+			else {
+				b2.setHp(b2.getHp() - damage);
+			}
 
 			//Prevents showing damage when dealing no damage
 			if(m == Moves.HIBERNATE || m == Moves.FEAST || m == Moves.LOCK_ON || m == Moves.ROAR || m == Moves.RAGE) {
@@ -180,9 +185,9 @@ public class DamageSystem {
 
 			//prevents healing over max hp
 			if(heal > 0) {
-//				System.out.println("Heal amount: " + heal);
-//				System.out.println(b1.getName() + " max hp: " + b1.getmaxHp());
-//				System.out.println(b2.getName() + " max hp: " + b2.getmaxHp());
+				//				System.out.println("Heal amount: " + heal);
+				//				System.out.println(b1.getName() + " max hp: " + b1.getmaxHp());
+				//				System.out.println(b2.getName() + " max hp: " + b2.getmaxHp());
 				if(b1.getHp() <= b1.maxHp) {
 					if(b1.getHp() + heal >= b1.maxHp) {
 						int overheal = (b1.getHp() + heal) % b1.maxHp;
@@ -200,20 +205,21 @@ public class DamageSystem {
 					System.out.println("Already at max hp!");
 				}
 			}
+
 			for(int i = 0; i < beastPrintOrder.length; i++) {
 				System.out.println("Name: " + beastPrintOrder[i].getName() + 
 						"\tHP: " + beastPrintOrder[i].getHp() + 
 						"/" + 
 						beastPrintOrder[i].getmaxHp());
-				
+
 			}
-			
+
 			System.out.println();
 		}
 		else {
 			System.out.println("Attack missed!");
 		}
-		
+
 
 	}
 }
