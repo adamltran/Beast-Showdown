@@ -21,20 +21,22 @@ public class TurnSystem {
 	public TurnSystem() {
 	}
 
+	//won't have illegal input if you can only click the buttons later...
 	public boolean isValidMove(String s) {
 		if(s.compareTo("SCRATCH") == 0 ||
 				s.compareTo("FEAST") == 0 ||
 				s.compareTo("HAYMAKER") == 0){
-			System.out.println("move was valid!");
+//			System.out.println("move was valid!");
 			return true;
 		}
 		return false;
 	}
 
+	//also to be deleted since won't be typing in game
 	public Moves usesMove(String s) {
 		Moves m = null;
 		if(isValidMove(s)) {
-			System.out.println("inside loopio");
+//			System.out.println("inside loopio");
 			switch(s) {
 			case "SCRATCH": {
 				m =  Moves.SCRATCH;
